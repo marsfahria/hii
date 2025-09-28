@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hi</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 30px;
+      background-color: #111111;
+      margin: 0;
+    }
+    .surat {
+      max-width: 600px;
+      margin: auto;
+      background-color: rgb(41, 41, 41);
+      padding: 20px 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      font-size: 18px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      border-radius: 8px;
+      color: azure;
+    }
+    .highlight {
+      background-color: #bd87b15a; 
+      padding: 0 4px;
+      border-radius: 4px;
+    }
+
+    @media (max-width: 480px){
+      body {
+        padding: 15px 10px;
+        font-size: 0.95rem;
+      }
+      .surat {
+        font-size: 1rem;
+        padding: 15px 15px;
+        width: 95vw;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="surat" id="surat"></div>
+
+<script>
+  const suratText = `Hi, Nazwa
+I wasn’t sure if you would read this, but here I am, writing this.
+It’s funny how time flies, isn’t it?
+I remember the first time i call you
+It was late night in july. and honestly, my heart beating fast before i call you.
+I pretended to be looking for something just to have an excuse to talk to you.
+And I’m so happy that you answered my call.
+
+I like everything about you.
+I like the way you talk, the way you speak to me.
+I like the way you joke, and the way you get serious.
+I admire the way you handle all your problems.
+And I hope I can be a place for you to come home to when you’re facing troubles.
+
+But I don’t know how you feel about me.
+Maybe you don’t feel the same, maybe you even hate me.
+I realize I’m a boring person.
+I’m not good with words, and maybe the way I respond to your stories isn’t the best.
+But I always want to listen to you.
+I always want to hear about you, and about your world.
+
+I’ve been drawn to you for a long time.
+But I was afraid, afraid that if we kept talking, I’d end up falling for you.
+And that’s what happened, I already liked you the moment you answered my call.
+
+I’m sorry for how I acted toward you before, and even now.
+I still get nervous whenever I see you, even today.
+
+I'm Falling in love with you.
+And I always love you, Nazwa.`;
+
+  const suratElem = document.getElementById('surat');
+  const lines = suratText.split('\n');
+  let lineIndex = 0;
+
+  // Baris yang ingin diberi highlight
+  const highlightLines = ["I'm Falling in love with you.", "And I always love you, Nazwa."];
+
+  function scrollPageToBottom() {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: 'smooth'
+    });
+  }
+
+  function typeLine(line, callback) {
+    let charIndex = 0;
+
+    // Buat elemen <div> baru untuk tiap baris
+    const lineDiv = document.createElement('div');
+
+    // Cek apakah baris ini harus di-highlight
+    if (highlightLines.includes(line.trim())) {
+      lineDiv.classList.add('highlight');
+    }
+
+    suratElem.appendChild(lineDiv);
+
+    function typeChar() {
+      if (charIndex < line.length) {
+        lineDiv.textContent += line.charAt(charIndex);
+        charIndex++;
+        scrollPageToBottom();
+        setTimeout(typeChar, 40);
+      } else {
+        suratElem.textContent += '\n';
+        scrollPageToBottom();
+        callback();
+      }
+    }
+    typeChar();
+  }
+
+  function startTyping() {
+    if (lineIndex < lines.length) {
+      typeLine(lines[lineIndex], () => {
+        lineIndex++;
+        setTimeout(startTyping, 700);
+      });
+    }
+  }
+
+  startTyping();
+</script>
+
+</body>
+</html>
